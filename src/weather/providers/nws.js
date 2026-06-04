@@ -23,6 +23,23 @@ function firstObservationLabel(items, key) {
   return null;
 }
 
+function extractRainIndicator(properties) {
+  const presentWeather = Array.isArray(properties.presentWeather) ? properties.presentWeather : [];
+  for (const item of presentWeather) {
+    const weather = String(item?.weather ?? '').toLowerCase();
+    if (weather && /(rain|drizzle|shower|sprinkle|precip)/.test(weather)) {
+      return item.weather;
+    }
+  }
+
+  const precipitationLastHour = properties.precipitationLastHour?.value ?? null;
+  if (Number.isFinite(precipitationLastHour) && precipitationLastHour > 0) {
+    return `${precipitationLastHour} mm last hour`;
+  }
+
+  return null;
+}
+
 export async function fetchNwsCurrent(stationId, fetchImpl = fetch) {
   const url = `https://api.weather.gov/stations/${stationId}/observations/latest`;
   const response = await fetchImpl(url, {
@@ -38,7 +55,7 @@ export async function fetchNwsCurrent(stationId, fetchImpl = fetch) {
   const data = await response.json();
   const properties = data.properties ?? {};
   const temperatureF = toF(properties.temperature?.value);
-  const rain = firstObservationLabel(properties.presentWeather, 'weather');
+  const rain = extractRainIndicator(properties);
   const clouds = firstObservationLabel(properties.cloudLayers, 'amount');
   const precipitationLastHour = properties.precipitationLastHour?.value ?? null;
 
