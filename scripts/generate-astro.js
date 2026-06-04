@@ -1,8 +1,22 @@
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 function toDate(dateText) {
-  const date = new Date(`${dateText}T00:00:00.000Z`);
-  if (Number.isNaN(date.getTime())) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateText);
+  if (!match) {
+    throw new Error(`Invalid date: ${dateText}`);
+  }
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+
+  if (
+    Number.isNaN(date.getTime()) ||
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day
+  ) {
     throw new Error(`Invalid date: ${dateText}`);
   }
   return date;
