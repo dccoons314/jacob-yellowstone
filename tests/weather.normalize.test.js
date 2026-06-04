@@ -28,3 +28,50 @@ test('normalizeCurrent maps Open-Meteo keys from plan shape exactly', () => {
     icon: 3
   });
 });
+
+test('normalizeCurrent supports NWS payloads with temperatureF and summary fallback', () => {
+  const payload = {
+    source: 'nws',
+    temperatureF: 68,
+    windMph: 10,
+    summary: 'Mostly Cloudy'
+  };
+
+  assert.deepEqual(normalizeCurrent(payload), {
+    source: 'nws',
+    temperatureF: 68,
+    windMph: 10,
+    icon: 'Mostly Cloudy'
+  });
+});
+
+test('normalizeCurrent handles Open-Meteo arrays and missing wind speed', () => {
+  const payload = {
+    source: 'open-meteo',
+    temperature_2m: [55, 57],
+    weathercode: [3, 2]
+  };
+
+  assert.deepEqual(normalizeCurrent(payload), {
+    source: 'open-meteo',
+    temperatureF: 55,
+    windMph: null,
+    icon: 3
+  });
+});
+
+test('normalizeCurrent infers Open-Meteo source for provider hourly payloads', () => {
+  const payload = {
+    time: ['2026-06-05T10:00', '2026-06-05T11:00'],
+    temperature_2m: [55, 57],
+    precipitation_probability: [20, 10],
+    weathercode: [3, 2]
+  };
+
+  assert.deepEqual(normalizeCurrent(payload), {
+    source: 'open-meteo',
+    temperatureF: 55,
+    windMph: null,
+    icon: 3
+  });
+});

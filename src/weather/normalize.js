@@ -1,24 +1,41 @@
+function firstValue(value) {
+  if (Array.isArray(value)) {
+   return value[0] ?? null;
+  }
+
+  return value ?? null;
+}
+
+function isOpenMeteoPayload(payload) {
+  return (
+   payload?.source === 'open-meteo' ||
+   'temperature_2m' in payload ||
+   'weathercode' in payload ||
+   'wind_speed_10m' in payload
+  );
+}
+
 export function normalizeCurrent(payload) {
   if (!payload || typeof payload !== 'object') {
-    return null;
+   return null;
   }
 
   if (payload.source === 'nws') {
-    return {
-      source: 'nws',
-      temperatureF: payload.tempF ?? null,
-      windMph: payload.windMph ?? null,
-      icon: payload.icon ?? null
-    };
+   return {
+     source: 'nws',
+     temperatureF: payload.tempF ?? payload.temperatureF ?? null,
+     windMph: payload.windMph ?? null,
+     icon: payload.icon ?? payload.summary ?? null
+   };
   }
 
-  if (payload.source === 'open-meteo') {
-    return {
-      source: 'open-meteo',
-      temperatureF: payload.temperature_2m ?? null,
-      windMph: payload.wind_speed_10m ?? null,
-      icon: payload.weathercode ?? null
-    };
+  if (isOpenMeteoPayload(payload)) {
+   return {
+     source: 'open-meteo',
+     temperatureF: firstValue(payload.temperature_2m),
+     windMph: firstValue(payload.wind_speed_10m),
+     icon: firstValue(payload.weathercode)
+   };
   }
 
   return null;

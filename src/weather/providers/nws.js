@@ -22,12 +22,14 @@ export async function fetchNwsCurrent(stationId, fetchImpl = fetch) {
 
   const data = await response.json();
   const properties = data.properties ?? {};
+  const temperatureF = toF(properties.temperature?.value);
 
   return {
     source: 'nws',
     stationId,
     observedAt: properties.timestamp ?? null,
-    temperatureF: toF(properties.temperature?.value),
+    tempF: temperatureF,
+    temperatureF,
     windMph: kphToMph(properties.windSpeed?.value),
     summary: properties.textDescription ?? null
   };

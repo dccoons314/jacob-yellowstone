@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { fetchNwsCurrent } from '../src/weather/providers/nws.js';
 import { fetchOpenMeteoHourly } from '../src/weather/providers/openmeteo.js';
+import { normalizeCurrent } from '../src/weather/normalize.js';
 
 test('fetchNwsCurrent calls NWS endpoint and maps metric values', async () => {
   const calls = [];
@@ -32,6 +33,7 @@ test('fetchNwsCurrent calls NWS endpoint and maps metric values', async () => {
     source: 'nws',
     stationId: 'KJAC',
     observedAt: '2026-06-05T10:00:00+00:00',
+    tempF: 68,
     temperatureF: 68,
     windMph: 10,
     summary: 'Mostly Cloudy'
@@ -74,5 +76,49 @@ test('fetchOpenMeteoHourly requests required fields and returns json.hourly', as
     temperature_2m: [55, 57],
     precipitation_probability: [20, 10],
     weathercode: [3, 2]
+  });
+});
+
+test('fetchNwsCurrent output is compatible with normalizeCurrent', async () => {
+  const fetchMock = async () => ({
+    ok: true,
+    json: async () => ({
+      properties: {
+        timestamp: '2026-06-05T10:00:00+00:00',
+        temperature: { value: 20 },
+        windSpeed: { value: 16.0934 },
+        textDescription: 'Mostly Cloudy'
+      }
+    })
+  });
+
+  const providerOutput = await fetchNwsCurrent('KJAC', fetchMock);
+  assert.deepEqual(normalizeCurrent(providerOutput), {
+    source: 'nws',
+    temperatureF: 68,
+    windMph: 10,
+    icon: 'Mostly Cloudy'
+  });
+});
+
+test('fetchOpenMeteoHourly output is compatible with normalizeCurrent', async () => {
+  const fetchMock = async () => ({
+    ok: true,
+    json: async () => ({
+      hourly: {
+        time: ['2026-06-05T10:00', '2026-06-05T11:00'],
+        temperature_2m: [55, 57],
+        precipitation_probability: [20, 10],
+        weathercode: [3, 2]
+      }
+    })
+  });
+
+  const providerOutput = await fetchOpenMeteoHourly(44.6, -110.5, fetchMock);
+  assert.deepEqual(normalizeCurrent(providerOutput), {
+    source: 'open-meteo',
+    temperatureF: 55,
+    windMph: null,
+    icon: 3
   });
 });
