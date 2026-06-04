@@ -108,10 +108,13 @@ function renderWeatherBlock(weather, now) {
   const temperature = Number.isFinite(weather.current.temperatureF) ? `${Math.round(weather.current.temperatureF)}°F` : '—';
   const wind = Number.isFinite(weather.current.windMph) ? `${Math.round(weather.current.windMph)} mph wind` : null;
   const icon = weather.current.icon ? String(weather.current.icon) : null;
+  const rain = weather.current.rain ? String(weather.current.rain) : 'not reported';
+  const clouds = weather.current.clouds ? String(weather.current.clouds) : 'not reported';
 
   return `<div class="weather-block">
     <p class="weather-current">${escapeHtml(temperature)}${wind ? ` · ${escapeHtml(wind)}` : ''}</p>
     ${icon ? `<p class="weather-icon">${escapeHtml(icon)}</p>` : ''}
+    <p class="weather-conditions">Rain: ${escapeHtml(rain)} · Clouds: ${escapeHtml(clouds)}</p>
     ${weather.lastSuccessAt ? `<p class="weather-meta">Updated ${escapeHtml(formatTimestamp(weather.lastSuccessAt, now))}</p>` : ''}
     ${weather.staleMode ? `<p class="weather-meta weather-meta--${escapeHtml(weather.staleMode)}">Showing cached data</p>` : ''}
   </div>`;
@@ -152,17 +155,14 @@ export function renderRegionCard(region, now = new Date()) {
   const highlights = Array.isArray(region?.highlights) ? region.highlights : [];
   const activities = Array.isArray(region?.activities) ? region.activities : [];
   const weather = region?.weather ?? null;
-  const stationId = region?.stationId ?? '';
-  const stationName = region?.stationName ?? stationId;
-  const stationLink = stationId
-    ? `<p class="weather-station"><a href="https://api.weather.gov/stations/${encodeURIComponent(stationId)}" target="_blank" rel="noreferrer">NWS station: ${escapeHtml(stationName)}</a></p>`
+  const stationLine = region?.stationId
+    ? `<p class="station"><a href="https://api.weather.gov/stations/${encodeURIComponent(region.stationId)}" target="_blank" rel="noreferrer">${escapeHtml(region.stationId)}</a>${region?.stationName ? ` · ${escapeHtml(region.stationName)}` : ''}${Number.isFinite(region?.lat) && Number.isFinite(region?.lon) ? ` · <a href="https://www.google.com/maps?q=${region.lat},${region.lon}" target="_blank" rel="noreferrer">Google Maps</a>` : ''}</p>`
     : '';
 
   return `<article class="region-card">
     <h3>${escapeHtml(region?.name ?? '')}</h3>
-    ${region?.stationId ? `<p class="station">${escapeHtml(region.stationId)}</p>` : ''}
+    ${stationLine}
     ${weather ? renderWeatherBlock(weather, now) : '<p class="weather-current weather-current--empty">Weather syncing…</p>'}
-    ${stationLink}
     ${
       highlights.length
         ? `<ul class="highlights">${highlights.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
