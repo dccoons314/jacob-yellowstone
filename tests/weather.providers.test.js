@@ -38,21 +38,18 @@ test('fetchNwsCurrent calls NWS endpoint and maps metric values', async () => {
   });
 });
 
-test('fetchOpenMeteoHourly calls Open-Meteo endpoint and maps hourly rows', async () => {
+test('fetchOpenMeteoHourly requests required fields and returns json.hourly', async () => {
   const calls = [];
   const fetchMock = async (url) => {
     calls.push(url);
     return {
       ok: true,
       json: async () => ({
-        latitude: 44.6,
-        longitude: -110.5,
-        timezone: 'UTC',
         hourly: {
           time: ['2026-06-05T10:00', '2026-06-05T11:00'],
           temperature_2m: [55, 57],
-          wind_speed_10m: [7, 8],
-          precipitation_probability: [20, 10]
+          precipitation_probability: [20, 10],
+          weathercode: [3, 2]
         }
       })
     };
@@ -66,29 +63,16 @@ test('fetchOpenMeteoHourly calls Open-Meteo endpoint and maps hourly rows', asyn
   assert.equal(calledUrl.searchParams.get('latitude'), '44.6');
   assert.equal(calledUrl.searchParams.get('longitude'), '-110.5');
   assert.equal(calledUrl.searchParams.get('forecast_days'), '5');
+  assert.equal(calledUrl.searchParams.get('timezone'), 'auto');
   assert.equal(
     calledUrl.searchParams.get('hourly'),
-    'temperature_2m,precipitation_probability,wind_speed_10m'
+    'temperature_2m,precipitation_probability,weathercode'
   );
 
   assert.deepEqual(result, {
-    source: 'open-meteo',
-    latitude: 44.6,
-    longitude: -110.5,
-    timezone: 'UTC',
-    hourly: [
-      {
-        time: '2026-06-05T10:00',
-        temperatureF: 55,
-        windMph: 7,
-        precipitationChance: 20
-      },
-      {
-        time: '2026-06-05T11:00',
-        temperatureF: 57,
-        windMph: 8,
-        precipitationChance: 10
-      }
-    ]
+    time: ['2026-06-05T10:00', '2026-06-05T11:00'],
+    temperature_2m: [55, 57],
+    precipitation_probability: [20, 10],
+    weathercode: [3, 2]
   });
 });
