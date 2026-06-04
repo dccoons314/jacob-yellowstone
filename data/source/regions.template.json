@@ -1,0 +1,50 @@
+[
+  {
+    "id": "cooke-city-lamar-valley-tower-junction",
+    "name": "Cooke City-Lamar Valley-Tower Junction",
+    "stationId": "K1M5",
+    "lat": 45.01,
+    "lon": -109.96,
+    "highlights": [
+      "Lamar Valley wildlife pullouts",
+      "Tower Fall",
+      "Cooke City gateway"
+    ]
+  },
+  {
+    "id": "old-faithful-madison",
+    "name": "Old Faithful-Madison",
+    "stationId": "K20U",
+    "lat": 44.46,
+    "lon": -110.83,
+    "highlights": [
+      "Old Faithful Geyser",
+      "Grand Prismatic Spring",
+      "Madison River"
+    ]
+  },
+  {
+    "id": "norris-mammoth",
+    "name": "Norris-Mammoth",
+    "stationId": "KWEY",
+    "lat": 44.94,
+    "lon": -110.7,
+    "highlights": [
+      "Norris Geyser Basin",
+      "Mammoth Hot Springs",
+      "Roosevelt Arch"
+    ]
+  },
+  {
+    "id": "yellowstone-lake",
+    "name": "Yellowstone Lake",
+    "stationId": "KLSU",
+    "lat": 44.43,
+    "lon": -110.37,
+    "highlights": [
+      "West Thumb Geyser Basin",
+      "Fishing Bridge",
+      "Lake Overlook"
+    ]
+  }
+]

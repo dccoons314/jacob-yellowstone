@@ -1,0 +1,17 @@
+{
+  "park": "Yellowstone National Park",
+  "trip": {
+    "startDate": "2026-06-05",
+    "endDate": "2026-06-10"
+  },
+  "astro": {
+    "lat": 44.6,
+    "lon": -110.5,
+    "timezone": "America/Denver"
+  },
+  "links": {
+    "googleMaps": "https://maps.google.com/?q=Yellowstone+National+Park",
+    "allTrails": "https://www.alltrails.com/parks/us/wyoming/yellowstone-national-park",
+    "nps": "https://www.nps.gov/yell/index.htm"
+  }
+}
