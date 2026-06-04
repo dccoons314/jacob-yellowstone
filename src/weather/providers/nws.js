@@ -23,6 +23,9 @@ export async function fetchNwsCurrent(stationId, fetchImpl = fetch) {
   const data = await response.json();
   const properties = data.properties ?? {};
   const temperatureF = toF(properties.temperature?.value);
+  const rain = properties.presentWeather?.[0]?.weather ?? null;
+  const clouds = properties.cloudLayers?.[0]?.amount ?? null;
+  const precipitationLastHour = properties.precipitationLastHour?.value ?? null;
 
   return {
     source: 'nws',
@@ -31,6 +34,9 @@ export async function fetchNwsCurrent(stationId, fetchImpl = fetch) {
     tempF: temperatureF,
     temperatureF,
     windMph: kphToMph(properties.windSpeed?.value),
-    summary: properties.textDescription ?? null
+    summary: properties.textDescription ?? null,
+    ...(rain !== null ? { rain } : {}),
+    ...(clouds !== null ? { clouds } : {}),
+    ...(precipitationLastHour !== null ? { precipitationLastHour } : {})
   };
 }

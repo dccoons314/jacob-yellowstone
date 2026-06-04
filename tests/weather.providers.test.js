@@ -88,7 +88,10 @@ test('fetchNwsCurrent output is compatible with normalizeCurrent', async () => {
         timestamp: '2026-06-05T10:00:00+00:00',
         temperature: { value: 20 },
         windSpeed: { value: 16.0934 },
-        textDescription: 'Mostly Cloudy'
+        textDescription: 'Mostly Cloudy',
+        presentWeather: [{ weather: 'Rain' }],
+        cloudLayers: [{ amount: 'BKN' }],
+        precipitationLastHour: { value: 1.2 }
       }
     })
   });
@@ -98,7 +101,10 @@ test('fetchNwsCurrent output is compatible with normalizeCurrent', async () => {
     source: 'nws',
     temperatureF: 68,
     windMph: 10,
-    icon: 'Mostly Cloudy'
+    icon: 'Mostly Cloudy',
+    rain: 'Rain',
+    clouds: 'BKN',
+    precipitationLastHour: 1.2
   });
 });
 
