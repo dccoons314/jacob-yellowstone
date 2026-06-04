@@ -46,7 +46,7 @@
   {
     "id": "norris-mammoth",
     "name": "Norris-Mammoth",
-    "stationId": "KWEY",
+    "stationId": "YLAW4",
     "lat": 44.94,
     "lon": -110.7,
     "activities": [
@@ -68,7 +68,7 @@
   {
     "id": "yellowstone-lake",
     "name": "Yellowstone Lake",
-    "stationId": "KLSU",
+    "stationId": "KP60",
     "lat": 44.43,
     "lon": -110.37,
     "activities": [

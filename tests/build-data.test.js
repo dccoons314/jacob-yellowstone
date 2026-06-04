@@ -48,6 +48,10 @@ test('regions template includes four placeholder planning sections', () => {
   const regions = readJson('../data/source/regions.template.json');
 
   assert.equal(regions.length, 4);
+  assert.deepEqual(
+    regions.map((region) => region.stationId),
+    ['K1M5', 'K20U', 'YLAW4', 'KP60']
+  );
   for (const region of regions) {
     assert.equal(typeof region.id, 'string');
     assert.equal(typeof region.name, 'string');
