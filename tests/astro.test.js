@@ -65,6 +65,28 @@ test('renderRegionCard combines station links and weather indicators', () => {
   assert.match(html, /Clouds: not reported/);
 });
 
+test('renderRegionCard renders current rain and cloud values when present', () => {
+  const html = renderRegionCard({
+    id: 'old-faithful-madison',
+    name: 'Old Faithful-Madison',
+    stationId: 'OFAW4',
+    weather: {
+      current: {
+        temperatureF: 68,
+        windMph: 10,
+        icon: 'Mostly Cloudy',
+        rain: 'Light rain',
+        clouds: 'Scattered clouds'
+      }
+    },
+    highlights: [],
+    activities: []
+  });
+
+  assert.match(html, /Rain: Light rain/);
+  assert.match(html, /Clouds: Scattered clouds/);
+});
+
 test('renderOverview combines the astro panel and region cards', () => {
   const html = renderOverview({
     site: { park: 'Yellowstone National Park' },
