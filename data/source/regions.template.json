@@ -5,6 +5,16 @@
     "stationId": "K1M5",
     "lat": 45.01,
     "lon": -109.96,
+    "activities": [
+      {
+        "name": "Lamar Valley wildlife viewing",
+        "details": "Use this as a placeholder for sunrise and roadside pullout planning."
+      },
+      {
+        "name": "Tower Fall area stop",
+        "details": "Use this for short scenic stops and weather-sensitive photo timing."
+      }
+    ],
     "highlights": [
       "Lamar Valley wildlife pullouts",
       "Tower Fall",
@@ -17,6 +27,16 @@
     "stationId": "K20U",
     "lat": 44.46,
     "lon": -110.83,
+    "activities": [
+      {
+        "name": "Geyser basin walk",
+        "details": "Placeholder for boardwalk and thermal feature planning."
+      },
+      {
+        "name": "Madison River pullout",
+        "details": "Placeholder for evening light and roadside stop planning."
+      }
+    ],
     "highlights": [
       "Old Faithful Geyser",
       "Grand Prismatic Spring",
@@ -29,6 +49,16 @@
     "stationId": "KWEY",
     "lat": 44.94,
     "lon": -110.7,
+    "activities": [
+      {
+        "name": "Norris Geyser Basin visit",
+        "details": "Placeholder for active thermal area weather and timing notes."
+      },
+      {
+        "name": "Mammoth terraces stop",
+        "details": "Placeholder for short walk and scenic overlook planning."
+      }
+    ],
     "highlights": [
       "Norris Geyser Basin",
       "Mammoth Hot Springs",
@@ -41,6 +71,16 @@
     "stationId": "KLSU",
     "lat": 44.43,
     "lon": -110.37,
+    "activities": [
+      {
+        "name": "West Thumb shoreline stop",
+        "details": "Placeholder for lake and thermal feature viewing."
+      },
+      {
+        "name": "Fishing Bridge area drive",
+        "details": "Placeholder for lake-side weather checks and scenic pauses."
+      }
+    ],
     "highlights": [
       "West Thumb Geyser Basin",
       "Fishing Bridge",
