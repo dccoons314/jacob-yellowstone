@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { fetchNwsCurrent } from '../src/weather/providers/nws.js';
 import { fetchOpenMeteoHourly } from '../src/weather/providers/openmeteo.js';
 import { normalizeCurrent } from '../src/weather/normalize.js';
+import { computeParkSummary } from '../src/weather/aggregate.js';
 
 test('fetchNwsCurrent calls NWS endpoint and maps metric values', async () => {
   const calls = [];
@@ -120,5 +121,17 @@ test('fetchOpenMeteoHourly output is compatible with normalizeCurrent', async ()
     temperatureF: 55,
     windMph: null,
     icon: 3
+  });
+});
+
+test('normalized provider outputs can feed the park summary aggregator', () => {
+  const summary = computeParkSummary([
+    { weather: { current: { temperatureF: 68 } } },
+    { weather: { current: { temperatureF: 70 } } },
+    { weather: { current: { temperatureF: null } } }
+  ]);
+
+  assert.deepEqual(summary, {
+    temperatureF: 69
   });
 });

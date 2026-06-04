@@ -1,8 +1,124 @@
 :root {
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: #102030;
+  background: #f6f7f9;
 }
 
 body {
   margin: 0;
   padding: 2rem;
+  background: #f6f7f9;
+}
+
+#app {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.overview {
+  display: grid;
+  gap: 1rem;
+}
+
+.overview-bar,
+.astro-panel,
+.region-card,
+.weather-banner {
+  background: #fff;
+  border: 1px solid #d9e0e8;
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(16, 32, 48, 0.05);
+}
+
+.overview-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  align-items: start;
+}
+
+.overview-meta h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.6rem;
+}
+
+.overview-meta p {
+  margin: 0.15rem 0;
+  color: #52606d;
+}
+
+.overview-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.overview-links a {
+  color: #0d5bd7;
+  text-decoration: none;
+}
+
+.weather-banner {
+  padding: 0.85rem 1rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.weather-banner--degraded {
+  border-color: #d97706;
+  background: #fff7ed;
+}
+
+.weather-banner--warning {
+  border-color: #f59e0b;
+  background: #fffbeb;
+}
+
+.astro-panel {
+  padding: 1rem 1.25rem;
+}
+
+.regions {
+  display: grid;
+  gap: 1rem;
+}
+
+.region-card {
+  padding: 1rem 1.25rem;
+}
+
+.region-card h3,
+.astro-panel h2 {
+  margin: 0 0 0.5rem;
+}
+
+.station,
+.weather-meta,
+.weather-icon {
+  color: #52606d;
+  margin: 0.15rem 0;
+}
+
+.weather-current {
+  font-weight: 600;
+  margin: 0.35rem 0 0.15rem;
+}
+
+.weather-current--empty {
+  color: #7a8694;
+}
+
+.weather-block {
+  margin: 0.5rem 0 0.75rem;
+}
+
+.highlights,
+.activities {
+  margin: 0.75rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.park-weather {
+  font-weight: 600;
 }

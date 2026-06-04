@@ -1,7 +1,12 @@
 import { STALE_DEGRADED_HOURS } from '../config.js';
 
 function getStorage() {
-  return globalThis.localStorage ?? null;
+  const storage = globalThis.localStorage ?? null;
+  if (!storage || typeof storage.getItem !== 'function' || typeof storage.setItem !== 'function') {
+    return null;
+  }
+
+  return storage;
 }
 
 export function getStaleMode(lastSuccessAt, now = new Date()) {
@@ -9,6 +14,14 @@ export function getStaleMode(lastSuccessAt, now = new Date()) {
   const ageHours = (now.getTime() - lastSuccessTime) / (60 * 60 * 1000);
 
   return ageHours >= STALE_DEGRADED_HOURS ? 'degraded' : 'warning';
+}
+
+export function shouldShowDegradedBanner(lastSuccessAt, now = new Date()) {
+  if (!lastSuccessAt) {
+    return false;
+  }
+
+  return getStaleMode(lastSuccessAt, now) === 'degraded';
 }
 
 export function cacheWeather(key, payload, now = new Date()) {

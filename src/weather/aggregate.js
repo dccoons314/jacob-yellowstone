@@ -1,5 +1,5 @@
 function extractTemperatureF(region) {
-  const weather = region?.current ?? region?.currentWeather ?? region;
+  const weather = region?.weather?.current ?? region?.current ?? region?.currentWeather ?? region;
   const temperatureF = weather?.temperatureF;
 
   return Number.isFinite(temperatureF) ? temperatureF : null;

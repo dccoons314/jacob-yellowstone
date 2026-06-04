@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { getStaleMode, cacheWeather, readCachedWeather } from '../src/weather/cache.js';
+import { getStaleMode, shouldShowDegradedBanner, cacheWeather, readCachedWeather } from '../src/weather/cache.js';
 import { STALE_DEGRADED_HOURS } from '../src/config.js';
 
 const previousLocalStorage = globalThis.localStorage;
@@ -16,6 +16,15 @@ test('getStaleMode returns warning before degraded threshold and degraded at thr
 
   assert.equal(getStaleMode(staleAtWarning, now), 'warning');
   assert.equal(getStaleMode(staleAtDegraded, now), 'degraded');
+});
+
+test('shouldShowDegradedBanner mirrors the degraded stale mode', () => {
+  const now = new Date('2026-06-05T12:00:00Z');
+  const staleAtWarning = new Date(now.getTime() - (STALE_DEGRADED_HOURS * 60 * 60 * 1000) + 1);
+  const staleAtDegraded = new Date(now.getTime() - STALE_DEGRADED_HOURS * 60 * 60 * 1000);
+
+  assert.equal(shouldShowDegradedBanner(staleAtWarning, now), false);
+  assert.equal(shouldShowDegradedBanner(staleAtDegraded, now), true);
 });
 
 test('cacheWeather and readCachedWeather round-trip payloads via localStorage', () => {
