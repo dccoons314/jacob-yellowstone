@@ -21,6 +21,10 @@ test('bootstrapWeatherDashboard renders weather and schedules refresh', async ()
   const fetchImpl = async (url) => {
     const path = new URL(url, 'https://dccoons314.github.io/jacob-yellowstone/').pathname;
 
+    if (path.includes('/src/data/')) {
+      throw new Error(`Asset path should be repo-root data, not src/data: ${path}`);
+    }
+
     if (path.endsWith('/data/site.json')) {
       return { ok: true, json: async () => ({
         park: 'Yellowstone National Park',

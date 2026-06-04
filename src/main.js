@@ -9,13 +9,14 @@ import { renderOverview } from './render.js';
 const WEATHER_CACHE_PREFIX = 'yellowstone-weather:';
 const MODULE_URL = new URL(import.meta.url);
 const BUILD_VERSION = MODULE_URL.searchParams.get('build');
+const SITE_ROOT_URL = new URL('../', MODULE_URL);
 
 function getRegionCacheKey(region) {
   return `${WEATHER_CACHE_PREFIX}${region.id}`;
 }
 
 function resolveAssetUrl(path) {
-  const url = new URL(path, MODULE_URL);
+  const url = new URL(path, SITE_ROOT_URL);
   if (BUILD_VERSION) {
     url.searchParams.set('build', BUILD_VERSION);
   }
