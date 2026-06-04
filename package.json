@@ -1,0 +1,11 @@
+{
+  "name": "yellowstone-reference-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "build:data": "node scripts/build-static-data.js",
+    "build": "npm run build:data"
+  }
+}
