@@ -108,7 +108,11 @@ function renderWeatherBlock(weather, now) {
   const temperature = Number.isFinite(weather.current.temperatureF) ? `${Math.round(weather.current.temperatureF)}°F` : '—';
   const wind = Number.isFinite(weather.current.windMph) ? `${Math.round(weather.current.windMph)} mph wind` : null;
   const icon = weather.current.icon ? String(weather.current.icon) : null;
-  const rain = weather.current.rain ? String(weather.current.rain) : 'not reported';
+  const rain =
+    weather.current.rain ??
+    (Number.isFinite(weather.current.precipitationLastHour) && weather.current.precipitationLastHour > 0
+      ? `${weather.current.precipitationLastHour} mm last hour`
+      : 'not reported');
   const clouds = weather.current.clouds ? String(weather.current.clouds) : 'not reported';
 
   return `<div class="weather-block">

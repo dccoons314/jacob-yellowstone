@@ -8,6 +8,21 @@ function kphToMph(kph) {
   return Math.round(kph * 0.621371);
 }
 
+function firstObservationLabel(items, key) {
+  if (!Array.isArray(items)) {
+    return null;
+  }
+
+  for (const item of items) {
+    const value = item?.[key];
+    if (value !== null && value !== undefined && value !== '') {
+      return value;
+    }
+  }
+
+  return null;
+}
+
 export async function fetchNwsCurrent(stationId, fetchImpl = fetch) {
   const url = `https://api.weather.gov/stations/${stationId}/observations/latest`;
   const response = await fetchImpl(url, {
@@ -23,8 +38,8 @@ export async function fetchNwsCurrent(stationId, fetchImpl = fetch) {
   const data = await response.json();
   const properties = data.properties ?? {};
   const temperatureF = toF(properties.temperature?.value);
-  const rain = properties.presentWeather?.[0]?.weather ?? null;
-  const clouds = properties.cloudLayers?.[0]?.amount ?? null;
+  const rain = firstObservationLabel(properties.presentWeather, 'weather');
+  const clouds = firstObservationLabel(properties.cloudLayers, 'amount');
   const precipitationLastHour = properties.precipitationLastHour?.value ?? null;
 
   return {

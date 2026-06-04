@@ -108,6 +108,34 @@ test('fetchNwsCurrent output is compatible with normalizeCurrent', async () => {
   });
 });
 
+test('fetchNwsCurrent skips sparse observation entries', async () => {
+  const fetchMock = async () => ({
+    ok: true,
+    json: async () => ({
+      properties: {
+        timestamp: '2026-06-05T10:00:00+00:00',
+        temperature: { value: 20 },
+        windSpeed: { value: 16.0934 },
+        textDescription: 'Mostly Cloudy',
+        presentWeather: [null, { weather: 'Rain' }],
+        cloudLayers: [null, { amount: 'BKN' }],
+        precipitationLastHour: { value: 1.2 }
+      }
+    })
+  });
+
+  const providerOutput = await fetchNwsCurrent('KJAC', fetchMock);
+  assert.deepEqual(normalizeCurrent(providerOutput), {
+    source: 'nws',
+    temperatureF: 68,
+    windMph: 10,
+    icon: 'Mostly Cloudy',
+    rain: 'Rain',
+    clouds: 'BKN',
+    precipitationLastHour: 1.2
+  });
+});
+
 test('fetchOpenMeteoHourly output is compatible with normalizeCurrent', async () => {
   const fetchMock = async () => ({
     ok: true,
