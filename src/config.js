@@ -8,3 +8,6 @@ export const WEATHER_DEFAULTS = {
   lowF: null,
   precipitationChance: 0
 };
+
+export const WEATHER_REFRESH_MS = 30 * 60 * 1000;
+export const STALE_DEGRADED_HOURS = 12;
