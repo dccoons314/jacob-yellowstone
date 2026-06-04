@@ -25,7 +25,12 @@ export function normalizeCurrent(payload) {
      source: 'nws',
      temperatureF: payload.tempF ?? payload.temperatureF ?? null,
      windMph: payload.windMph ?? null,
-     icon: payload.icon ?? payload.summary ?? null
+     icon: payload.icon ?? payload.summary ?? null,
+     ...(payload.rain !== undefined && payload.rain !== null ? { rain: payload.rain } : {}),
+     ...(payload.clouds !== undefined && payload.clouds !== null ? { clouds: payload.clouds } : {}),
+     ...(payload.precipitationLastHour !== undefined && payload.precipitationLastHour !== null
+       ? { precipitationLastHour: payload.precipitationLastHour }
+       : {})
    };
   }
 

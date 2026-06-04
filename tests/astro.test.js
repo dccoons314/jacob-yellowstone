@@ -35,21 +35,77 @@ test('renderAstroPanel includes sunrise and a relative label', () => {
   assert.match(html, /in 1h 30m/);
 });
 
-test('renderRegionCard includes the region name and highlights', () => {
+test('renderRegionCard combines station links and weather indicators', () => {
   const html = renderRegionCard({
     id: 'old-faithful-madison',
     name: 'Old Faithful-Madison',
     stationId: 'OFAW4',
     stationName: 'Old Faithful Ranger Station',
+    lat: 44.46,
+    lon: -110.83,
+    weather: {
+      current: {
+        temperatureF: 68,
+        windMph: 10,
+        icon: 'Mostly Cloudy'
+      }
+    },
     highlights: ['Old Faithful Geyser', 'Madison River'],
     activities: [{ name: 'Geyser basin walk', details: 'Placeholder' }]
   });
 
   assert.match(html, /Old Faithful-Madison/);
+  assert.match(
+    html,
+    /<p class="station">.*<a href="https:\/\/api\.weather\.gov\/stations\/OFAW4"[^>]*>OFAW4<\/a>.*Old Faithful Ranger Station.*<a href="https:\/\/www\.google\.com\/maps\?q=44\.46,-110\.83"[^>]*>Google Maps<\/a>.*<\/p>/s
+  );
   assert.match(html, /Old Faithful Geyser/);
   assert.match(html, /Geyser basin walk/);
-  assert.match(html, /api\.weather\.gov\/stations\/OFAW4/);
-  assert.match(html, /Old Faithful Ranger Station/);
+  assert.match(html, /Rain: not reported/);
+  assert.match(html, /Clouds: not reported/);
+});
+
+test('renderRegionCard renders current rain and cloud values when present', () => {
+  const html = renderRegionCard({
+    id: 'old-faithful-madison',
+    name: 'Old Faithful-Madison',
+    stationId: 'OFAW4',
+    weather: {
+      current: {
+        temperatureF: 68,
+        windMph: 10,
+        icon: 'Mostly Cloudy',
+        rain: 'Light rain',
+        clouds: 'Scattered clouds'
+      }
+    },
+    highlights: [],
+    activities: []
+  });
+
+  assert.match(html, /Rain: Light rain/);
+  assert.match(html, /Clouds: Scattered clouds/);
+});
+
+test('renderRegionCard uses precipitation as a rain fallback', () => {
+  const html = renderRegionCard({
+    id: 'old-faithful-madison',
+    name: 'Old Faithful-Madison',
+    stationId: 'OFAW4',
+    weather: {
+      current: {
+        temperatureF: 68,
+        windMph: 10,
+        icon: 'Mostly Cloudy',
+        precipitationLastHour: 1.2
+      }
+    },
+    highlights: [],
+    activities: []
+  });
+
+  assert.match(html, /Rain: 1\.2 mm last hour/);
+  assert.match(html, /Clouds: not reported/);
 });
 
 test('renderOverview combines the astro panel and region cards', () => {
