@@ -19,7 +19,9 @@ test('bootstrapWeatherDashboard renders weather and schedules refresh', async ()
   };
 
   const fetchImpl = async (url) => {
-    if (url.endsWith('/data/site.json')) {
+    const path = new URL(url, 'https://dccoons314.github.io/jacob-yellowstone/').pathname;
+
+    if (path.endsWith('/data/site.json')) {
       return { ok: true, json: async () => ({
         park: 'Yellowstone National Park',
         trip: { startDate: '2026-06-05', endDate: '2026-06-10' },
@@ -28,17 +30,17 @@ test('bootstrapWeatherDashboard renders weather and schedules refresh', async ()
       }) };
     }
 
-    if (url.endsWith('/data/regions.json')) {
+    if (path.endsWith('/data/regions.json')) {
       return { ok: true, json: async () => ([
-        { id: 'old-faithful-madison', name: 'Old Faithful-Madison', stationId: 'K20U', lat: 44.46, lon: -110.83, highlights: [], activities: [] }
+        { id: 'old-faithful-madison', name: 'Old Faithful-Madison', stationId: 'OFAW4', lat: 44.46, lon: -110.83, highlights: [], activities: [] }
       ]) };
     }
 
-    if (url.endsWith('/data/astro-2026-06-05_to_2026-06-10.json')) {
+    if (path.endsWith('/data/astro-2026-06-05_to_2026-06-10.json')) {
       return { ok: true, json: async () => ([{ date: '2026-06-05', sunrise: '06:30', sunset: '20:30' }]) };
     }
 
-    if (url.includes('/stations/K20U/observations/latest')) {
+    if (url.includes('/stations/OFAW4/observations/latest')) {
       return {
         ok: true,
         json: async () => ({

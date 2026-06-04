@@ -2,7 +2,8 @@
   {
     "id": "cooke-city-lamar-valley-tower-junction",
     "name": "Cooke City-Lamar Valley-Tower Junction",
-    "stationId": "K1M5",
+    "stationId": "YLAW4",
+    "stationName": "Mammoth at Yellowstone National Park",
     "lat": 45.01,
     "lon": -109.96,
     "activities": [
@@ -24,7 +25,8 @@
   {
     "id": "old-faithful-madison",
     "name": "Old Faithful-Madison",
-    "stationId": "K20U",
+    "stationId": "OFAW4",
+    "stationName": "Old Faithful Ranger Station",
     "lat": 44.46,
     "lon": -110.83,
     "activities": [
@@ -47,6 +49,7 @@
     "id": "norris-mammoth",
     "name": "Norris-Mammoth",
     "stationId": "YLAW4",
+    "stationName": "Mammoth at Yellowstone National Park",
     "lat": 44.94,
     "lon": -110.7,
     "activities": [
@@ -69,6 +72,7 @@
     "id": "yellowstone-lake",
     "name": "Yellowstone Lake",
     "stationId": "KP60",
+    "stationName": "Yellowstone Lake",
     "lat": 44.43,
     "lon": -110.37,
     "activities": [

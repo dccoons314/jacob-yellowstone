@@ -152,15 +152,17 @@ export function renderRegionCard(region, now = new Date()) {
   const highlights = Array.isArray(region?.highlights) ? region.highlights : [];
   const activities = Array.isArray(region?.activities) ? region.activities : [];
   const weather = region?.weather ?? null;
+  const stationId = region?.stationId ?? '';
+  const stationName = region?.stationName ?? stationId;
+  const stationLink = stationId
+    ? `<p class="weather-station"><a href="https://api.weather.gov/stations/${encodeURIComponent(stationId)}" target="_blank" rel="noreferrer">NWS station: ${escapeHtml(stationName)}</a></p>`
+    : '';
 
   return `<article class="region-card">
     <h3>${escapeHtml(region?.name ?? '')}</h3>
     ${region?.stationId ? `<p class="station">${escapeHtml(region.stationId)}</p>` : ''}
-    ${
-      weather
-        ? renderWeatherBlock(weather, now)
-        : '<p class="weather-current weather-current--empty">Weather syncing…</p>'
-    }
+    ${weather ? renderWeatherBlock(weather, now) : '<p class="weather-current weather-current--empty">Weather syncing…</p>'}
+    ${stationLink}
     ${
       highlights.length
         ? `<ul class="highlights">${highlights.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`

@@ -50,12 +50,13 @@ test('regions template includes four placeholder planning sections', () => {
   assert.equal(regions.length, 4);
   assert.deepEqual(
     regions.map((region) => region.stationId),
-    ['K1M5', 'K20U', 'YLAW4', 'KP60']
+    ['YLAW4', 'OFAW4', 'YLAW4', 'KP60']
   );
   for (const region of regions) {
     assert.equal(typeof region.id, 'string');
     assert.equal(typeof region.name, 'string');
     assert.equal(typeof region.stationId, 'string');
+    assert.equal(typeof region.stationName, 'string');
     assert.equal(typeof region.lat, 'number');
     assert.equal(typeof region.lon, 'number');
     assert.ok(Array.isArray(region.activities));

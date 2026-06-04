@@ -7,9 +7,19 @@ import { fetchOpenMeteoHourly } from './weather/providers/openmeteo.js';
 import { renderOverview } from './render.js';
 
 const WEATHER_CACHE_PREFIX = 'yellowstone-weather:';
+const MODULE_URL = new URL(import.meta.url);
+const BUILD_VERSION = MODULE_URL.searchParams.get('build');
 
 function getRegionCacheKey(region) {
   return `${WEATHER_CACHE_PREFIX}${region.id}`;
+}
+
+function resolveAssetUrl(path) {
+  const url = new URL(path, MODULE_URL);
+  if (BUILD_VERSION) {
+    url.searchParams.set('build', BUILD_VERSION);
+  }
+  return url.toString();
 }
 
 async function fetchJson(url, fetchImpl) {
@@ -22,9 +32,12 @@ async function fetchJson(url, fetchImpl) {
 }
 
 async function loadStaticData(fetchImpl) {
-  const site = await fetchJson('./data/site.json', fetchImpl);
-  const regions = await fetchJson('./data/regions.json', fetchImpl);
-  const astroRows = await fetchJson(`./data/astro-${site.trip.startDate}_to_${site.trip.endDate}.json`, fetchImpl);
+  const site = await fetchJson(resolveAssetUrl('./data/site.json'), fetchImpl);
+  const regions = await fetchJson(resolveAssetUrl('./data/regions.json'), fetchImpl);
+  const astroRows = await fetchJson(
+    resolveAssetUrl(`./data/astro-${site.trip.startDate}_to_${site.trip.endDate}.json`),
+    fetchImpl
+  );
 
   return { site, regions, astroRows };
 }

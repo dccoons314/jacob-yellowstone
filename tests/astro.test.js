@@ -39,7 +39,8 @@ test('renderRegionCard includes the region name and highlights', () => {
   const html = renderRegionCard({
     id: 'old-faithful-madison',
     name: 'Old Faithful-Madison',
-    stationId: 'K20U',
+    stationId: 'OFAW4',
+    stationName: 'Old Faithful Ranger Station',
     highlights: ['Old Faithful Geyser', 'Madison River'],
     activities: [{ name: 'Geyser basin walk', details: 'Placeholder' }]
   });
@@ -47,6 +48,8 @@ test('renderRegionCard includes the region name and highlights', () => {
   assert.match(html, /Old Faithful-Madison/);
   assert.match(html, /Old Faithful Geyser/);
   assert.match(html, /Geyser basin walk/);
+  assert.match(html, /api\.weather\.gov\/stations\/OFAW4/);
+  assert.match(html, /Old Faithful Ranger Station/);
 });
 
 test('renderOverview combines the astro panel and region cards', () => {
@@ -54,7 +57,7 @@ test('renderOverview combines the astro panel and region cards', () => {
     site: { park: 'Yellowstone National Park' },
     astroRows: [{ date: '2026-06-05', sunrise: '06:30', sunset: '20:30' }],
     regions: [
-      { id: 'old-faithful-madison', name: 'Old Faithful-Madison', stationId: 'K20U', highlights: [], activities: [] }
+      { id: 'old-faithful-madison', name: 'Old Faithful-Madison', stationId: 'OFAW4', stationName: 'Old Faithful Ranger Station', highlights: [], activities: [] }
     ],
     now: new Date('2026-06-05T05:00:00Z')
   });
